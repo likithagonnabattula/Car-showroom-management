@@ -17,3 +17,24 @@ See `/screenshots` folder
 
 ## 🗂️ Project Details
 See `app_description.md` and `project_structure.txt`
+## Car Showroom Management System – Description
+
+This app manages cars available for sale and allows users to book them. Once a booking is confirmed, the car's status automatically changes to "Booked". Admin roles can create/view/edit records. Built using Agile principles.
+
+
+##project_structure
+Tables:
+- Car Inventory (Fields: Car Name, Brand, Model, Price, Transmission, Status)
+- Booking (Fields: Customer Name, Car, Booking Date, Status)
+
+Modules:
+- Car Inventory (List + Form)
+- Bookings (List + Form)
+
+UI Actions:
+- Confirm Booking (Changes Booking status and updates Car status)
+
+Relationships:
+- Booking.car → reference to Car Inventory
+ServiceNow apps are cloud-based and cannot be directly exported as working code.
+This repo provides structure, screenshots, and proof of development.
