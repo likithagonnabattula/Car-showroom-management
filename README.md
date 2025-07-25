@@ -1,40 +1,83 @@
-# 🚗 Car Showroom Management System – ServiceNow
+# 🚗 Car Showroom Management System (ServiceNow)
 
-A low-code ServiceNow application to manage car inventory and customer bookings. Built using Studio with custom tables, UI Actions, reference fields, and business logic.
+This project is a **ServiceNow-based Car Showroom Management System** developed using the **Service Portal**, **Flow Designer**, **Widgets**, and **Update Sets**. It allows users to view, book, and manage car inventories in a structured, role-based access system.
 
-## 🔧 Features
-- Car Inventory management
-- Booking system with status updates
-- "Confirm Booking" UI Action with server-side scripting
-- Real-time status change in inventory
+---
 
-## 🧪 Tech Stack
-- Platform: ServiceNow Developer Instance
-- Tools: Studio, Table Designer, Scripting (GlideRecord), UI Actions
+## 🌐 Project Modules
 
-## 📸 Screenshots
-See `/screenshots` folder
+### 1. **Car Inventory Management**
+- Custom Table: `Car Inventory`
+- Fields:
+  - Car Name
+  - Brand
+  - Variant
+  - Year of Manufacture
+  - Fuel Type
+  - Available Stock
+  - Price
+  - Status (Available/Sold)
+  - Description (Car details)
 
-## 🗂️ Project Details
-See `app_description.md` and `project_structure.txt`
-## Car Showroom Management System – Description
+### 2. **Car Booking**
+- Booking table stores user car booking data.
+- Flow Designer automates stock update when a car is booked.
 
-This app manages cars available for sale and allows users to book them. Once a booking is confirmed, the car's status automatically changes to "Booked". Admin roles can create/view/edit records. Built using Agile principles.
+### 3. **Flow Designer Automation**
+- Trigger: Booking record is inserted.
+- Actions:
+  - Look up the selected car using **Car sys_id**.
+  - Decrease the stock count (`Available Stock`) by 1.
+  - Update the status if stock reaches 0.
 
+### 4. **Service Portal**
+- Portal Name: `Liki's Car Showroom Portal`
+- Users can:
+  - View all available cars.
+  - See car details like name, brand, price, status.
+- Widgets used:
+  - **Car Inventory Widget**: Displays available cars dynamically using GlideRecord.
 
-##project_structure
-Tables:
-- Car Inventory (Fields: Car Name, Brand, Model, Price, Transmission, Status)
-- Booking (Fields: Customer Name, Car, Booking Date, Status)
+### 5. **Widgets**
+- Widget: `Car Inventory`
+- Technologies:
+  - Client Script (JavaScript)
+  - Server Script (GlideRecord)
+  - HTML (for dynamic car display)
 
-Modules:
-- Car Inventory (List + Form)
-- Bookings (List + Form)
+### 6. **Update Set**
+- All configurations packaged in an update set.
+- Exported to XML for migration.
 
-UI Actions:
-- Confirm Booking (Changes Booking status and updates Car status)
+---
 
-Relationships:
-- Booking.car → reference to Car Inventory
-ServiceNow apps are cloud-based and cannot be directly exported as working code.
-This repo provides structure, screenshots, and proof of development.
+## 🛠 Technologies Used
+
+- **ServiceNow Studio**
+- **Flow Designer**
+- **Service Portal Designer**
+- **Widgets (HTML + JS + Server Script)**
+- **Update Sets**
+- Optional: Role-based Access Control (RBAC)
+
+---
+
+## 🖥️ Widget Code Snippets
+
+### Server Script (Car Inventory Widget)
+```javascript
+(function() {
+  var gr = new GlideRecord('x_your_scope_car_inventory');
+  gr.addQuery('status', 'available');
+  gr.query();
+
+  data.cars = [];
+  while (gr.next()) {
+    data.cars.push({
+      name: gr.getValue('car_name'),
+      brand: gr.getValue('brand'),
+      price: gr.getValue('price'),
+      status: gr.getValue('status')
+    });
+  }
+})();
